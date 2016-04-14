@@ -33,7 +33,7 @@ def PickBest(test_results):
 
     return fold_index, folds
 
-def PrintFinal(final_train_results, final_test_results):   
+def PrintFinal(final_train_results, final_test_results, n_1, n_2):   
 
     pprint(final_train_results)    
     final_average_train = round(sum(final_train_results.values())/5, 2)
@@ -43,4 +43,18 @@ def PrintFinal(final_train_results, final_test_results):
     final_average_test = round(sum(final_test_results.values())/5, 2)
     print('\n>>> Expected generalization accuracy if given new data: {}% <<<\n'.format(round(final_average_test, 2)))
     
+    n_max = max(n_1, n_2)
+    n_min = min(n_1, n_2)
+    expected_accuracy = (n_max/(n_min + n_max))*100
+    print('>>> Expected accuracy for group sizes n_1 = {} and n_2 = {}: {}% <<<\n'.format(n_1, n_2, round(expected_accuracy, 2)))
+
+    acc_diff = final_average_test - expected_accuracy
+    if acc_diff > 0:
+        acc_direction = str('above')
+    elif acc_diff < 0:
+        acc_direction = str('below')
+    else: 
+        acc_direction = str('equal')
+    print('>>> Test accuracy was {} expected accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 2)))
+        
     return final_average_train, final_average_test

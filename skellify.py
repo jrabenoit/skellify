@@ -15,6 +15,7 @@ n_1, n_2, dir_1, dir_2, mask = data.SelectGroup()
 print('Running Step 2/10: Sort Data Into Groups and Mask Sorted Data')
 sorted_files = prep.Sort(dir_1, dir_2)
 
+#Flatten the data, z-normalize (center the data (remove the mean), scale to unit variance)
 print('Running Step 3/10: Flatten the 4D Files to 2D Matrices, z-normalization')
 masked_data = prep.MaskFlatten(sorted_files, mask)
 znorm_data = prep.ZNormalize(masked_data)
@@ -45,5 +46,5 @@ final_train_results, final_test_results = iterator.TestHoldout(oX_train, oX_test
 
 print('Running Step 10/10: PrintFinal')
 #Print the results all purdy-like
-final_average_train, final_average_test = comparator.PrintFinal(final_train_results, final_test_results)
+final_average_train, final_average_test = comparator.PrintFinal(final_train_results, final_test_results, n_1, n_2)
 
