@@ -19,6 +19,13 @@ def MaskFlatten(sorted_files, mask):
     masked_data = nifti_masker.fit_transform(sorted_files)
     return masked_data
 
+def ZNormalize(masked_data):
+    '''Will this work with sparse data? See 4.3.1.2
+    Also do we fit the training set then transform the training & test sets?'''
+    stdscaler = preprocessing.StandardScaler(copy=True, with_mean=True, with_std=True)
+    znorm_data = stdscaler.fit_transform(masked_data)
+    return znorm_data
+
 def GroupLabels(size_1, size_2):
     '''Create two-class label set matching data input'''
     array_1 = np.zeros(int(size_1), dtype=np.int8)
