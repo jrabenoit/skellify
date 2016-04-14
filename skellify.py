@@ -15,7 +15,7 @@ n_1, n_2, dir_1, dir_2, mask = data.SelectGroup()
 print('Running Step 2/10: Sort Data Into Groups and Mask Sorted Data')
 sorted_files = prep.Sort(dir_1, dir_2)
 
-print('Running Step 3/10: Flatten the 4D Files to 2D Matrices')
+print('Running Step 3/10: Flatten the 4D Files to 2D Matrices, z-normalization')
 masked_data = prep.MaskFlatten(sorted_files, mask)
 
 print('Running Step 4/10: Apply a Label to Each Group')

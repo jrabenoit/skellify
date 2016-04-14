@@ -23,7 +23,7 @@ def ParameterSets(iX_train, iX_test, iy_train, iy_test):
         fs_param = 'featsel.' + str(param_set[0]) + '(sX_train, sX_test, sy_train, sy_test)'
         dc_param = 'decomp.' + str(param_set[1]) + '(fX_train, fX_test, fy_train, fy_test)'
         ml_param = 'mltools.' + str(param_set[2]) + '(dX_train, dX_test, dy_train, dy_test)'
-        
+
         fX_train, fX_test, fy_train, fy_test = eval(fs_param)
         dX_train, dX_test, dy_train, dy_test = eval(dc_param)
         lX_train, lX_test = eval(ml_param)

@@ -10,7 +10,8 @@ def LSvmL1(fX_train, fX_test, fy_train, fy_test):
     lX_test = copy.copy(fX_test)
     ly_train = copy.copy(fy_train)
     ly_test = copy.copy(fy_test)
-    for i in range(0,len(fX_train)):
+    for i in range(len(fX_train)):
+        #Values of C<=0.56 don't work
         lsvm = svm.LinearSVC(penalty='l1', dual=False)
         lsvm.fit_transform(lX_train[i], ly_train[i])
         lsvm.transform(lX_test[i])
@@ -25,7 +26,7 @@ def LSvmL2(fX_train, fX_test, fy_train, fy_test):
     ly_train = copy.copy(fy_train)
     ly_test = copy.copy(fy_test)
     for i in range(0,len(fX_train)):
-        lsvm = svm.LinearSVC(penalty='l2', loss='hinge', dual=True)
+        lsvm = svm.LinearSVC(C = 0.3, penalty='l2', loss='hinge', dual=True)
         lsvm.fit_transform(lX_train[i], ly_train[i])
         lsvm.transform(lX_test[i])
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])

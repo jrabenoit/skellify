@@ -4,6 +4,7 @@ import glob
 import copy
 import numpy as np
 from nilearn.input_data import NiftiMasker
+from sklearn import preprocessing
 
 def Sort(dir_1, dir_2):
     '''Sorting with output: alphabetized set 1, alphabetized set 2'''
@@ -18,8 +19,8 @@ def MaskFlatten(sorted_files, mask):
     masked_data = nifti_masker.fit_transform(sorted_files)
     return masked_data
 
-#Create two-class label set matching data input
 def GroupLabels(size_1, size_2):
+    '''Create two-class label set matching data input'''
     array_1 = np.zeros(int(size_1), dtype=np.int8)
     array_2 = np.ones(int(size_2), dtype=np.int8)
     labels = np.append(array_1, array_2)
