@@ -24,8 +24,8 @@ def SelectGroup():
     for key, value in group_keys.items():
         print("    {}) {}".format(key, value[0]))    
 
-    choice_1 = int(input('Choose first group and press [enter]: '))
-    choice_2 = int(input('Choose second group and press [enter]: '))
+    choice_1 = int(input('Choose first group, then press Enter: '))
+    choice_2 = int(input('Choose second group, then press Enter: '))
 
     dir_1 = str(group_keys[choice_1][1]) + '*.nii.gz'
     dir_2 = str(group_keys[choice_2][1]) + '*.nii.gz'

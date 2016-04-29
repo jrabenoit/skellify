@@ -1,23 +1,23 @@
 #!/usr/bin/env python 
 
 from sklearn import svm
+from sklearn import naive_bayes
+from sklearn import neighbors
 import copy
 
 #Run inner loop Linear SVM (l = linear SVM, s = score)
     
 def LSvmL1(fX_train, fX_test, fy_train, fy_test):
+    '''.fit fits the model to the dataset in brackets. Score tests the fitted model on data.'''
     lX_train = copy.copy(fX_train)
     lX_test = copy.copy(fX_test)
     ly_train = copy.copy(fy_train)
     ly_test = copy.copy(fy_test)
     for i in range(len(fX_train)):
-        #Values of C<=0.56 don't work
         lsvm = svm.LinearSVC(penalty='l1', dual=False)
-        lsvm.fit_transform(lX_train[i], ly_train[i])
-        lsvm.transform(lX_test[i])
+        lsvm.fit(lX_train[i], ly_train[i])
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])
-
     return lX_train, lX_test
 
 def LSvmL2(fX_train, fX_test, fy_train, fy_test):
@@ -27,12 +27,35 @@ def LSvmL2(fX_train, fX_test, fy_train, fy_test):
     ly_test = copy.copy(fy_test)
     for i in range(0,len(fX_train)):
         lsvm = svm.LinearSVC(penalty='l2', loss='hinge', dual=True)
-        lsvm.fit_transform(lX_train[i], ly_train[i])
-        lsvm.transform(lX_test[i])
+        lsvm.fit(lX_train[i], ly_train[i])
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])
-        
     return lX_train, lX_test
+
+def GauNaiBay(fX_train, fX_test, fy_train, fy_test):
+    lX_train = copy.copy(fX_train)
+    lX_test = copy.copy(fX_test)
+    ly_train = copy.copy(fy_train)
+    ly_test = copy.copy(fy_test)
+    for i in range(0,len(fX_train)):
+        gnb = naive_bayes.GaussianNB()
+        gnb.fit(lX_train[i], ly_train[i])
+        lX_train[i] = gnb.score(lX_train[i], ly_train[i])
+        lX_test[i] = gnb.score(lX_test[i], ly_test[i])
+    return lX_train, lX_test
+
+def KNeighbors(fX_train, fX_test, fy_train, fy_test):
+    lX_train = copy.copy(fX_train)
+    lX_test = copy.copy(fX_test)
+    ly_train = copy.copy(fy_train)
+    ly_test = copy.copy(fy_test)
+    for i in range(0,len(fX_train)):
+        knc = neighbors.KNeighborsClassifier()
+        knc.fit(lX_train[i], ly_train[i])
+        lX_train[i] = knc.score(lX_train[i], ly_train[i])
+        lX_test[i] = knc.score(lX_test[i], ly_test[i])
+    return lX_train, lX_test
+
 '''
 def LSvmL1_alternate(fX_train, fX_test, fy_train, fy_test):
     return LSvm_base(fX_train, fX_test, fy_train, fy_test,
@@ -77,11 +100,9 @@ def LSvmL1Final(fX_train, fX_test, fy_train, fy_test):
     ly_train = copy.copy(fy_train)
     ly_test = copy.copy(fy_test)
     lsvm = svm.LinearSVC(penalty='l1', dual=False)
-    lsvm.fit_transform(lX_train, ly_train)
-    lsvm.transform(lX_test)
+    lsvm.fit(lX_train, ly_train)
     lX_train = lsvm.score(lX_train, ly_train)
     lX_test = lsvm.score(lX_test, ly_test)
-
     return lX_train, lX_test
 
 def LSvmL2Final(fX_train, fX_test, fy_train, fy_test):
@@ -90,10 +111,30 @@ def LSvmL2Final(fX_train, fX_test, fy_train, fy_test):
     ly_train = copy.copy(fy_train)
     ly_test = copy.copy(fy_test)
     lsvm = svm.LinearSVC(penalty='l2', loss='hinge', dual=True)
-    lsvm.fit_transform(lX_train, ly_train)
-    lsvm.transform(lX_test)
+    lsvm.fit(lX_train, ly_train)
     lX_train = lsvm.score(lX_train, ly_train)
-    lX_test = lsvm.score(lX_test, ly_test)
-        
+    lX_test = lsvm.score(lX_test, ly_test) 
+    return lX_train, lX_test
+    
+def GauNaiBayFinal(fX_train, fX_test, fy_train, fy_test):
+    lX_train = copy.copy(fX_train)
+    lX_test = copy.copy(fX_test)
+    ly_train = copy.copy(fy_train)
+    ly_test = copy.copy(fy_test)
+    gnb = naive_bayes.GaussianNB()
+    gnb.fit(lX_train, ly_train)
+    lX_train = gnb.score(lX_train, ly_train)
+    lX_test = gnb.score(lX_test, ly_test)
+    return lX_train, lX_test
+    
+def KNeighborsFinal(fX_train, fX_test, fy_train, fy_test):
+    lX_train = copy.copy(fX_train)
+    lX_test = copy.copy(fX_test)
+    ly_train = copy.copy(fy_train)
+    ly_test = copy.copy(fy_test)
+    knc = neighbors.KNeighborsClassifier()
+    knc.fit(lX_train, ly_train)
+    lX_train = knc.score(lX_train, ly_train)
+    lX_test = knc.score(lX_test, ly_test)
     return lX_train, lX_test
 

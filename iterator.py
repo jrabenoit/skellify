@@ -13,7 +13,7 @@ def ParameterSets(iX_train, iX_test, iy_train, iy_test):
     sy_train =  copy.copy(iy_train)
     sy_test = copy.copy(iy_test)
     
-    param_set_list = list(itertools.product(('SelKBest','SelKBest2'),('RPca1','RPca2', 'NullDecomp'),('LSvmL1','LSvmL2')))
+    param_set_list = list(itertools.product(('SelKBest','SelKBest2'),('RPca1','RPca2','NullDecomp'),('LSvmL1','LSvmL2','GauNaiBay','KNeighbors')))
     train_results = {}
     test_results = {}
     for i in range(0,len(param_set_list)):
