@@ -16,7 +16,7 @@ print('Running Step 2/10: Sort Data Into Groups and Mask Sorted Data')
 sorted_files = prep.Sort(dir_1, dir_2)
 
 #Flatten the data, z-normalize (center the data (remove the mean), scale to unit variance)
-print('Running Step 3/10: Flatten the 4D Files to 2D Matrices, z-normalization')
+print('Running Step 3/10: Flatten the 4D Files to 2D Matrices, Z-normalization')
 masked_data = prep.MaskFlatten(sorted_files, mask)
 znorm_data = prep.ZNormalize(masked_data)
 
