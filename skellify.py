@@ -37,7 +37,7 @@ print('Running Step 7/10: Define Sets of Feature Transformation/Reduction & ML C
 test_results, param_set_list = iterator.ParameterSets(iX_train, iX_test, iy_train, iy_test)
 
 #Compare all accuracy results to pick best combination of parameters
-print('Running Step 8/10: Pick the Best Feature Transformation/Reduction & ML Classifier')
+print('Running Step 8/10: Pick the Best Features & ML Classifier')
 fold_index, folds = comparator.PickBest(test_results)
 
 print('Running Step 9/10: Test Inner Loop Best Combination on Outer Loop Holdout')
