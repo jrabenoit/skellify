@@ -10,13 +10,13 @@ import copy
 #Run inner loop Linear SVM (l = linear SVM, s = score)
 '''
 ml_func_dict = {
-                'LSvmL1',
-                'LSvmL2',
-                'GauNaiBay',
-                'KNeighbors',
-                'CSupSvc',
-                'RandomForest',
-                'LinearSgd'
+                LSvmL1:,
+                LSvmL2:,
+                GauNaiBay':,
+                KNeighbors':,
+                CSupSvc':,
+                RandomForest':,
+                LinearSgd':
                 }
 Append to it each one of the functions
 '''
@@ -107,29 +107,22 @@ def LinearSgd(fX_train, fX_test, fy_train, fy_test):
     return lX_train, lX_test
 
 
-
-'''
 def LSvmL1_alternate(fX_train, fX_test, fy_train, fy_test):
-    return LSvm_base(fX_train, fX_test, fy_train, fy_test,
-              penalty='l1', loss=None, dual=False)
+    return LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dual=False)
               
 def LSvmL2_alternate(fX_train, fX_test, fy_train, fy_test):
-    return LSvm_base(fX_train, fX_test, fy_train, fy_test,
-              penalty='l2', loss='hinge', dual=True)
+    return LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l2', loss='hinge', dual=True)
 
 #Because this isn't a def, it doesn't have to be instantiated before calling the dict to iterator.py
 ml_func_dict = {}
+
+def LSvm_maker(penalty,loss,dual,C):
+    return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
+    
 for C in [0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
-    ml_func_dict['LSvmL1_c'+str(c)] = LSvm_maker(penalty='l1',loss=None,
-                                                 dual=False,c=c)
-
-def LSvm_maker(penalty,loss,dual,c):
-    return lambda fX_train, fX_test, fy_train, fy_test :
-        LSvm_base(fX_train, fX_test, fy_train, fy_test,
-                  penalty,loss,dual,c)
-
-def LSvm_base(fX_train, fX_test, fy_train, fy_test,
-              penalty='l1', loss=None, dual=False, c=1.0):
+    ml_func_dict['LSvmL1_C'+str(C).replace(".","")] = LSvm_maker(penalty='l1',loss=None,dual=False,C=C)
+    
+def LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dual=False, C=1.0):
     # Note: c argument not actually used yet
     lX_train = copy.copy(fX_train)
     lX_test = copy.copy(fX_test)
@@ -137,15 +130,13 @@ def LSvm_base(fX_train, fX_test, fy_train, fy_test,
     ly_test = copy.copy(fy_test)
     for i in range(0,len(fX_train)):
         if not loss:
-            lsvm = svm.LinearSVC(penalty=penalty, dual=dual, c=c)
+            lsvm = svm.LinearSVC(penalty=penalty, dual=dual, C=C)
         else:
             lsvm = svm.LinearSVC(penalty=penalty, dual=dual, loss=loss)
         lsvm.fit(lX_train[i], ly_train[i])
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])
     return lX_train, lX_test
-
-'''
 
 def LSvmL1Final(fX_train, fX_test, fy_train, fy_test):
     lX_train = copy.copy(fX_train)

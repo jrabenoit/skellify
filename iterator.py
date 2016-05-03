@@ -6,18 +6,22 @@ import copy
 import featsel, decomp, mltools, results
 import re
 
+'''   
+    param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),('LSvmL1','LSvmL2','GauNaiBay','KNeighbors', 'CSupSvc', 'RandomForest', 'LinearSgd')))
+    
+    param_set_list = list(itertools.product(featsel.ml_feat_dict.keys(), decomp.ml_transform_dict.keys(), mltools.ml_func_dict.keys()))
+'''
 
 def ParameterSets(iX_train, iX_test, iy_train, iy_test):
     sX_train = copy.copy(iX_train) 
     sX_test = copy.copy(iX_test)
     sy_train =  copy.copy(iy_train)
     sy_test = copy.copy(iy_test)
+
+    param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),mltools.ml_func_dict.keys()))
     
-    param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),('LSvmL1','LSvmL2','GauNaiBay','KNeighbors', 'CSupSvc', 'RandomForest', 'LinearSgd')))
+    #print(param_set_list)
     
-'''
-param_set_list = list(itertools.product(ml_feat_dict.keys(), ml_trans_dict.keys(), ml_func_dict.keys()))
-'''
     train_results = {}
     test_results = {}
     for i in range(0,len(param_set_list)):
