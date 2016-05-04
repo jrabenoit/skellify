@@ -41,7 +41,7 @@ def SelKBest3(X_train, X_test, y_train, y_test):
 
     return fX_train, fX_test, fy_train, fy_test
 
-ml_feat_dict = {
+feat_sel_dict = {
                 'SelKBest1':SelKBest1,
                 'SelKBest2':SelKBest2,
                 'SelKBest3':SelKBest3 

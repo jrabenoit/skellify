@@ -22,7 +22,6 @@ def LSvmL1(fX_train, fX_test, fy_train, fy_test):
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])
     return lX_train, lX_test
-'''
 
 def LSvmL2(fX_train, fX_test, fy_train, fy_test):
     lX_train = copy.copy(fX_train)
@@ -35,6 +34,7 @@ def LSvmL2(fX_train, fX_test, fy_train, fy_test):
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])
     return lX_train, lX_test
+'''
 
 def GauNaiBay(fX_train, fX_test, fy_train, fy_test):
     lX_train = copy.copy(fX_train)
@@ -103,7 +103,7 @@ ml_func_dict = {
                 'CSupSvc':CSupSvc,
                 'RandomForest':RandomForest,
                 'LinearSgd':LinearSgd
-               }
+               } 
 
 def LSvmL1_alternate(fX_train, fX_test, fy_train, fy_test):
     return LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dual=False)
@@ -116,6 +116,7 @@ def LSvm_maker(penalty,loss,dual,C):
     
 for C in [0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
     ml_func_dict['LSvmL1_C'+str(C).replace(".","")] = LSvm_maker(penalty='l1',loss=None,dual=False,C=C)
+    ml_func_dict['LSvmL2_C'+str(C).replace(".","")] = LSvm_maker(penalty='l2',loss='hinge',dual=True,C=C)
     
 def LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dual=False, C=1.0):
     # Note: c argument not actually used yet
