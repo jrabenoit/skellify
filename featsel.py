@@ -41,6 +41,12 @@ def SelKBest3(X_train, X_test, y_train, y_test):
 
     return fX_train, fX_test, fy_train, fy_test
 
+ml_feat_dict = {
+                'SelKBest1':SelKBest1,
+                'SelKBest2':SelKBest2,
+                'SelKBest3':SelKBest3 
+               }
+
 def SelKBest1Final(X_train, X_test, y_train, y_test):
     fX_train = copy.copy(X_train)
     fX_test = copy.copy(X_test)

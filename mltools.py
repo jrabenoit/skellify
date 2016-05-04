@@ -8,21 +8,10 @@ from sklearn import linear_model
 import copy
 
 #Run inner loop Linear SVM (l = linear SVM, s = score)
-'''
-ml_func_dict = {
-                LSvmL1:,
-                LSvmL2:,
-                GauNaiBay':,
-                KNeighbors':,
-                CSupSvc':,
-                RandomForest':,
-                LinearSgd':
-                }
-Append to it each one of the functions
-'''
 
+'''
+#.fit fits the model to the dataset in brackets. Score tests the fitted model on data.
 def LSvmL1(fX_train, fX_test, fy_train, fy_test):
-    '''.fit fits the model to the dataset in brackets. Score tests the fitted model on data.'''
     lX_train = copy.copy(fX_train)
     lX_test = copy.copy(fX_test)
     ly_train = copy.copy(fy_train)
@@ -33,6 +22,7 @@ def LSvmL1(fX_train, fX_test, fy_train, fy_test):
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])
     return lX_train, lX_test
+'''
 
 def LSvmL2(fX_train, fX_test, fy_train, fy_test):
     lX_train = copy.copy(fX_train)
@@ -106,15 +96,20 @@ def LinearSgd(fX_train, fX_test, fy_train, fy_test):
         lX_test[i] = sgd.score(lX_test[i], ly_test[i])
     return lX_train, lX_test
 
+ml_func_dict = {
+                'LSvmL2':LSvmL2,
+                'GauNaiBay':GauNaiBay,
+                'KNeighbors':KNeighbors,
+                'CSupSvc':CSupSvc,
+                'RandomForest':RandomForest,
+                'LinearSgd':LinearSgd
+               }
 
 def LSvmL1_alternate(fX_train, fX_test, fy_train, fy_test):
     return LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dual=False)
               
 def LSvmL2_alternate(fX_train, fX_test, fy_train, fy_test):
     return LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l2', loss='hinge', dual=True)
-
-#Because this isn't a def, it doesn't have to be instantiated before calling the dict to iterator.py
-ml_func_dict = {}
 
 def LSvm_maker(penalty,loss,dual,C):
     return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)

@@ -6,21 +6,15 @@ import copy
 import featsel, decomp, mltools, results
 import re
 
-'''   
-    param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),('LSvmL1','LSvmL2','GauNaiBay','KNeighbors', 'CSupSvc', 'RandomForest', 'LinearSgd')))
-    
-    param_set_list = list(itertools.product(featsel.ml_feat_dict.keys(), decomp.ml_transform_dict.keys(), mltools.ml_func_dict.keys()))
-'''
-
 def ParameterSets(iX_train, iX_test, iy_train, iy_test):
     sX_train = copy.copy(iX_train) 
     sX_test = copy.copy(iX_test)
     sy_train =  copy.copy(iy_train)
     sy_test = copy.copy(iy_test)
 
+#    param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),mltools.ml_func_dict.keys()))
     param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),mltools.ml_func_dict.keys()))
-    
-    #print(param_set_list)
+ 
     
     train_results = {}
     test_results = {}
@@ -30,11 +24,11 @@ def ParameterSets(iX_train, iX_test, iy_train, iy_test):
         
         fs_param = 'featsel.' + str(param_set[0]) + '(sX_train, sX_test, sy_train, sy_test)'
         dc_param = 'decomp.' + str(param_set[1]) + '(fX_train, fX_test, fy_train, fy_test)'
-        ml_param = 'mltools.' + str(param_set[2]) + '(dX_train, dX_test, dy_train, dy_test)'
+        ml_param = str(param_set[2])
 
         fX_train, fX_test, fy_train, fy_test = eval(fs_param)
         dX_train, dX_test, dy_train, dy_test = eval(dc_param)
-        lX_train, lX_test = eval(ml_param)
+        lX_train, lX_test = eval("mltools.ml_func_dict['{}'](dX_train, dX_test, dy_train, dy_test)".format(ml_param))
         
         ir_train, ir_test = results.InnerAverages(lX_train, lX_test, param_set)
         train_results.update(ir_train)
