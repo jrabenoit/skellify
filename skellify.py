@@ -45,6 +45,6 @@ print('Running Step 9/10: Test Inner Loop Best Combination on Outer Loop Holdout
 final_train_results, final_test_results = iterator.TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index) 
 
 print('Running Step 10/10: PrintFinal')
-#Print the results all purdy-like
+#Print the results
 final_average_train, final_average_test = comparator.PrintFinal(final_train_results, final_test_results, n_1, n_2)
 
