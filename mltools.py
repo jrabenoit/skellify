@@ -166,11 +166,11 @@ ml_func_dict_final = {
                      } 
 
 def LSvm_maker_final(penalty,loss,dual,C):
-    return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
+    return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base_final(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
     
 for C in [0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
-    ml_func_dict_final['LSvmL1_C'+str(C).replace(".","p")] = LSvm_maker(penalty='l1',loss=None,dual=False,C=C)
-    ml_func_dict_final['LSvmL2_C'+str(C).replace(".","p")] = LSvm_maker(penalty='l2',loss='hinge',dual=True,C=C)
+    ml_func_dict_final['LSvmL1_C'+str(C).replace(".","p")] = LSvm_maker_final(penalty='l1',loss=None,dual=False,C=C)
+    ml_func_dict_final['LSvmL2_C'+str(C).replace(".","p")] = LSvm_maker_final(penalty='l2',loss='hinge',dual=True,C=C)
     
 def LSvm_base_final(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dual=False, C=1.0):
     # Note: c argument not actually used yet
@@ -178,13 +178,9 @@ def LSvm_base_final(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=Non
     lX_test = copy.copy(fX_test)
     ly_train = copy.copy(fy_train)
     ly_test = copy.copy(fy_test)
-    for i in range(0,len(fX_train)):
-        if not loss:
-            lsvm = svm.LinearSVC(penalty=penalty, dual=dual, C=C)
-        else:
-            lsvm = svm.LinearSVC(penalty=penalty, dual=dual, loss=loss)
-        lsvm.fit(lX_train, ly_train)
-        lX_train = lsvm.score(lX_train, ly_train)
-        lX_test = lsvm.score(lX_test, ly_test)
+    lsvm = svm.LinearSVC(penalty=penalty, dual=dual, C=C)
+    lsvm.fit(lX_train, ly_train)
+    lX_train = lsvm.score(lX_train, ly_train)
+    lX_test = lsvm.score(lX_test, ly_test)
     return lX_train, lX_test
 
