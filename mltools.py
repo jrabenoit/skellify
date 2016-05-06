@@ -70,11 +70,11 @@ def LinearSgd(fX_train, fX_test, fy_train, fy_test):
     return lX_train, lX_test
 
 ml_func_dict = {
-            #    'GauNaiBay':GauNaiBay,
-            #    'KNeighbors':KNeighbors,
-            #    'CSupSvc':CSupSvc,
-            #    'RandomForest':RandomForest,
-            #    'LinearSgd':LinearSgd
+                'GauNaiBay':GauNaiBay,
+                'KNeighbors':KNeighbors,
+                'CSupSvc':CSupSvc,
+                'RandomForest':RandomForest,
+                'LinearSgd':LinearSgd
                } 
 
 def LSvm_maker(penalty,loss,dual,C):
@@ -158,11 +158,11 @@ def LinearSgdFinal(fX_train, fX_test, fy_train, fy_test):
     return lX_train, lX_test
     
 ml_func_dict_final = {
-               #       'GauNaiBayFinal':GauNaiBayFinal,
-               #       'KNeighborsFinal':KNeighborsFinal,
-               #       'CSupSvcFinal':CSupSvcFinal,
-               #       'RandomForestFinal':RandomForestFinal,
-               #       'LinearSgdFinal':LinearSgdFinal
+                      'GauNaiBayFinal':GauNaiBayFinal,
+                      'KNeighborsFinal':KNeighborsFinal,
+                      'CSupSvcFinal':CSupSvcFinal,
+                      'RandomForestFinal':RandomForestFinal,
+                      'LinearSgdFinal':LinearSgdFinal
                      } 
 
 def LSvm_maker_final(penalty,loss,dual,C):

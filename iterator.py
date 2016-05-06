@@ -12,9 +12,7 @@ def ParameterSets(iX_train, iX_test, iy_train, iy_test):
     sy_train =  copy.copy(iy_train)
     sy_test = copy.copy(iy_test)
 
-#    param_set_list = list(itertools.product(('SelKBest1','SelKBest2', 'SelKBest3'),('RPca1','RPca2','NullDecomp'),mltools.ml_func_dict.keys()))
     param_set_list = list(itertools.product(featsel.feat_sel_dict.keys(),decomp.decomp_dict.keys(),mltools.ml_func_dict.keys()))
- 
     
     train_results = {}
     test_results = {}
@@ -31,7 +29,6 @@ def ParameterSets(iX_train, iX_test, iy_train, iy_test):
         test_results.update(ir_test)    
         
     return test_results, param_set_list
-
    
 def TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index):
     hX_train, hX_test = copy.copy(oX_train), copy.copy(oX_test)
