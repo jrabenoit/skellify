@@ -3,13 +3,6 @@
 import itertools
 from pprint import pprint
 
-'''
-def helper(d,tag):
-    d2 = {k:v for (k,v) in d.items() if tag in k}
-    inverse = [(value,key) for key,value in d2.items()]
-    return max(inverse)[1]
-'''
-
 def PickBest(test_results):
 #Create new dict for each outer fold, compare all param sets for fold, return key
     folds = {}

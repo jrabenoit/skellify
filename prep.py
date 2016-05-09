@@ -8,8 +8,8 @@ from sklearn import preprocessing
 
 def Sort(dir_1, dir_2):
     '''Sorting with output: alphabetized set 1, alphabetized set 2'''
-    dataset_1 = sorted(glob.glob(copy.copy(dir_1)))
-    dataset_2 = sorted(glob.glob(copy.copy(dir_2)))
+    dataset_1 = sorted(glob.glob(dir_1))
+    dataset_2 = sorted(glob.glob(dir_2))
     sorted_files = dataset_1 + dataset_2
     return sorted_files
 

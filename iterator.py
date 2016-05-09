@@ -7,27 +7,19 @@ import featsel, decomp, mltools, results
 import re
 
 def ParameterSets(iX_train, iX_test, iy_train, iy_test):
-    sX_train = copy.copy(iX_train) 
-    sX_test = copy.copy(iX_test)
-    sy_train =  copy.copy(iy_train)
-    sy_test = copy.copy(iy_test)
-
-    param_set_list = list(itertools.product(featsel.feat_sel_dict.keys(),decomp.decomp_dict.keys(),mltools.ml_func_dict.keys()))
-    
+    param_set_list = list(itertools.product(featsel.feat_sel_dict.keys(),decomp.decomp_dict.keys(),mltools.ml_func_dict.keys()))    
     train_results = {}
     test_results = {}
     for i in range(0,len(param_set_list)):
         print('  running iterator param set {0}/{1}: {2}'.format(i+1, len(param_set_list), param_set_list[i]))
         param_set = param_set_list[i]
-
-        fX_train, fX_test, fy_train, fy_test = eval("featsel.feat_sel_dict['{}'](sX_train, sX_test, sy_train, sy_test)".format(param_set[0]))
+        #f-X, d-f, l-d
+        fX_train, fX_test, fy_train, fy_test = eval("featsel.feat_sel_dict['{}'](iX_train, iX_test, iy_train, iy_test)".format(param_set[0]))
         dX_train, dX_test, dy_train, dy_test = eval("decomp.decomp_dict['{}'](fX_train, fX_test, fy_train, fy_test)".format(param_set[1]))
         lX_train, lX_test = eval("mltools.ml_func_dict['{}'](dX_train, dX_test, dy_train, dy_test)".format(param_set[2]))
-        
         ir_train, ir_test = results.InnerAverages(lX_train, lX_test, param_set)
         train_results.update(ir_train)
-        test_results.update(ir_test)    
-        
+        test_results.update(ir_test)          
     return test_results, param_set_list
    
 def TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index):
