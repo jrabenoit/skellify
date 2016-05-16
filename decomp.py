@@ -11,7 +11,7 @@ decomp_dict = {'NullDecomp':NullDecomp}
 def RPca_maker(n_components):
     return lambda iX_train, iX_test, iy_train, iy_test: RPca_base(iX_train, iX_test, iy_train, iy_test, n_components)
     
-for n_components in range(1,21,1):
+for n_components in range(3,4,1):
     decomp_dict['RPca'+str(n_components)] = RPca_maker(n_components)
     
 def RPca_base(iX_train, iX_test, iy_train, iy_test, n_components=3):
@@ -37,7 +37,7 @@ decomp_dict_final = {'NullDecomp':NullDecompFinal}
 def RPca_maker_final(n_components):
     return lambda iX_train, iX_test, iy_train, iy_test: RPca_base_final(iX_train, iX_test, iy_train, iy_test, n_components)
     
-for n_components in range(1,21,1):
+for n_components in range(3,4,1):
     decomp_dict_final['RPca'+str(n_components)] = RPca_maker_final(n_components)
     
 def RPca_base_final(iX_train, iX_test, iy_train, iy_test, n_components=3):

@@ -5,17 +5,37 @@ from pprint import pprint
 
 def PickBest(test_results):
 #Create new dict for each outer fold, compare all param sets for fold, return key
+#Get mean for each fold, remove two lowest accuracy items, change accuracy to variance, pick combination of parameters giving minimum variance for each fold.
+    fold_1_mean = sum(value for key, value in test_results.items() if 'test_1' in key.lower())/5
+    fold_2_mean = sum(value for key, value in test_results.items() if 'test_2' in key.lower())/5
+    fold_3_mean = sum(value for key, value in test_results.items() if 'test_3' in key.lower())/5
+    fold_4_mean = sum(value for key, value in test_results.items() if 'test_4' in key.lower())/5
+    fold_5_mean = sum(value for key, value in test_results.items() if 'test_5' in key.lower())/5
+        
+    for _ in itertools.repeat(None, 2):
+        del test_results[min({k:v for (k,v) in test_results.items() if 'test_1' in k}, key=test_results.get)]
+        del test_results[min({k:v for (k,v) in test_results.items() if 'test_2' in k}, key=test_results.get)]
+        del test_results[min({k:v for (k,v) in test_results.items() if 'test_3' in k}, key=test_results.get)]
+        del test_results[min({k:v for (k,v) in test_results.items() if 'test_4' in k}, key=test_results.get)]
+        del test_results[min({k:v for (k,v) in test_results.items() if 'test_5' in k}, key=test_results.get)]
+    
+    test_results.update((k, (v/fold_1_mean)**2) for k, v in test_results.items() if 'test_1' in k)
+    test_results.update((k, (v/fold_2_mean)**2) for k, v in test_results.items() if 'test_2' in k)
+    test_results.update((k, (v/fold_3_mean)**2) for k, v in test_results.items() if 'test_3' in k)
+    test_results.update((k, (v/fold_4_mean)**2) for k, v in test_results.items() if 'test_4' in k)
+    test_results.update((k, (v/fold_5_mean)**2) for k, v in test_results.items() if 'test_5' in k)
+        
     folds = {}
-    fold_1 = max({k:v for (k,v) in test_results.items() if 'test_1' in k}, key=test_results.get)
-    fold_2 = max({k:v for (k,v) in test_results.items() if 'test_2' in k}, key=test_results.get)
-    fold_3 = max({k:v for (k,v) in test_results.items() if 'test_3' in k}, key=test_results.get)
-    fold_4 = max({k:v for (k,v) in test_results.items() if 'test_4' in k}, key=test_results.get)
-    fold_5 = max({k:v for (k,v) in test_results.items() if 'test_5' in k}, key=test_results.get)
+    fold_1 = min({k:v for (k,v) in test_results.items() if 'test_1' in k}, key=test_results.get)
+    fold_2 = min({k:v for (k,v) in test_results.items() if 'test_2' in k}, key=test_results.get)
+    fold_3 = min({k:v for (k,v) in test_results.items() if 'test_3' in k}, key=test_results.get)
+    fold_4 = min({k:v for (k,v) in test_results.items() if 'test_4' in k}, key=test_results.get)
+    fold_5 = min({k:v for (k,v) in test_results.items() if 'test_5' in k}, key=test_results.get)
     
     #fold_1 = helper(test_results,'test_1')
     
     fold_index= [fold_1, fold_2, fold_3, fold_4, fold_5]
-    
+
     folds[fold_1] = test_results[fold_1]
     folds[fold_2] = test_results[fold_2]
     folds[fold_3] = test_results[fold_3]

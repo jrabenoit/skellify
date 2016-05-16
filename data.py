@@ -4,16 +4,17 @@ import os, os.path
 
 # Dict for each group of form: group_keys={key:['description', 'directory location']}
 group_keys={
-    1: ['Healthy Controls', '/home/james/Desktop/depression/10_Skellify_data/healthy_controls/'],
-    2: ['Low-Moderate MDD Group', '/home/james/Desktop/depression/10_Skellify_data/low_HAMD/'],
-    3: ['Severe MDD Group', '/home/james/Desktop/depression/10_Skellify_data/med_HAMD/'],
-    4: ['Very Severe MDD Group', '/home/james/Desktop/depression/10_Skellify_data/high_HAMD/'],
-    5: ['Patients with >=50% Reduction in HAM-D Score', '/home/james/Desktop/depression/10_Skellify_data/responder/'],
-    6: ['Patients with <7 HAM-D Score', '/home/james/Desktop/depression/10_Skellify_data/remitter/'],
-    7: ['Patients with <50% Reduction in HAM-D Score', '/home/james/Desktop/depression/10_Skellify_data/nonresponder/'],
-    8: ['Patients with La/La type 5-HT TLPR', '/home/james/Desktop/depression/10_Skellify_data/lala_tlpr/'],
-    9: ['Patients with Sa/Sa + Sa/Lg type 5-HT TLPR', '/home/james/Desktop/depression/10_Skellify_data/sasa_salg_tlpr/'],
-    10: ['Patients with La/Sa + La/Lg type 5-HT TLPR', '/home/james/Desktop/depression/10_Skellify_data/lasa_lalg_tlpr/']
+    1:['Healthy Controls','/home/james/Desktop/depression/10_Skellify_data/healthy_controls/'],
+    2:['Low-Moderate MDD Group','/home/james/Desktop/depression/10_Skellify_data/low_HAMD/'],
+    3:['Severe MDD Group','/home/james/Desktop/depression/10_Skellify_data/med_HAMD/'],
+    4:['Very Severe MDD Group','/home/james/Desktop/depression/10_Skellify_data/high_HAMD/'],
+    5:['Patients with >=50% Reduction in HAM-D Score','/home/james/Desktop/depression/10_Skellify_data/responder/'],
+    6:['Patients with <7 HAM-D Score','/home/james/Desktop/depression/10_Skellify_data/remitter/'],
+    7:['Patients with <50% Reduction in HAM-D Score','/home/james/Desktop/depression/10_Skellify_data/nonresponder/'],
+    8:['Patients with La/La type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/lala_tlpr/'],
+    9:['Patients with Sa/Sa + Sa/Lg type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/sasa_salg_tlpr/'],
+    10:['Patients with La/Sa + La/Lg type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/lasa_lalg_tlpr/'],
+    11:['All Patients','/home/james/Desktop/depression/10_Skellify_data/all_hamd/']
     }
 
 # Mask file for skeletonized DTI scans
