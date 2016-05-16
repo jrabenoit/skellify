@@ -69,5 +69,8 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2):
     else: 
         acc_direction = str('equal')
     print('>>> Test accuracy was {} expected accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 2)))
+    
+    kappa = abs((final_average_test - expected_accuracy)/(100-expected_accuracy))
+    print('>>> Kappa score was {} <<<\n'.format(kappa))
         
     return final_average_train, final_average_test
