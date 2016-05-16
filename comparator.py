@@ -19,11 +19,11 @@ def PickBest(test_results):
         del test_results[min({k:v for (k,v) in test_results.items() if 'test_4' in k}, key=test_results.get)]
         del test_results[min({k:v for (k,v) in test_results.items() if 'test_5' in k}, key=test_results.get)]
     
-    test_results.update((k, (v/fold_1_mean)**2) for k, v in test_results.items() if 'test_1' in k)
-    test_results.update((k, (v/fold_2_mean)**2) for k, v in test_results.items() if 'test_2' in k)
-    test_results.update((k, (v/fold_3_mean)**2) for k, v in test_results.items() if 'test_3' in k)
-    test_results.update((k, (v/fold_4_mean)**2) for k, v in test_results.items() if 'test_4' in k)
-    test_results.update((k, (v/fold_5_mean)**2) for k, v in test_results.items() if 'test_5' in k)
+    test_results.update((k, (v-fold_1_mean)**2) for k, v in test_results.items() if 'test_1' in k)
+    test_results.update((k, (v-fold_2_mean)**2) for k, v in test_results.items() if 'test_2' in k)
+    test_results.update((k, (v-fold_3_mean)**2) for k, v in test_results.items() if 'test_3' in k)
+    test_results.update((k, (v-fold_4_mean)**2) for k, v in test_results.items() if 'test_4' in k)
+    test_results.update((k, (v-fold_5_mean)**2) for k, v in test_results.items() if 'test_5' in k)
         
     folds = {}
     fold_1 = min({k:v for (k,v) in test_results.items() if 'test_1' in k}, key=test_results.get)
