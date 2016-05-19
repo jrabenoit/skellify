@@ -3,6 +3,7 @@
 import itertools
 import copy
 import operator
+from scipy.stats import chisquare
 from pprint import pprint
 
 def PickBest(test_results):
@@ -71,7 +72,9 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2):
     else: 
         acc_direction = str('equals')
     print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 2)))
-    
-#    p_value = 
+
+# Significance testing for 3 multiple comparisons, 1 df
+    chi_square = chisquare(final_average_test, f_exp= expected_accuracy, ddof=0)
+    print('>>> (chi square, raw p-value): {}\n <<<'.format(str(chi_square)))
         
     return final_average_train, final_average_test

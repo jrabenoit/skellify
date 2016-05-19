@@ -37,7 +37,7 @@ def TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index):
     final_train_results = {}
     final_test_results = {}
     for i in range(0,5):
-        print('  running final param set, fold {0}/{1}: {2}'.format(i+1, len(final_params), final_params[i][1:4]))
+        print('  Final params, fold {0}/{1}: {2}'.format(i+1, len(final_params), final_params[i][1:4]))
         
         param_set = final_params[i]
         
