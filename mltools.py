@@ -59,8 +59,9 @@ ml_func_dict = {
 
 def LSvm_maker(penalty,loss,dual,C):
     return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
-    
-for C in [1]:#0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
+ 
+#remember to change the final run values of C as well, if you change this one   
+for C in [0.03, 0.02]:#0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
     ml_func_dict['LSvmL1_C'+str(C).replace(".","p")] = LSvm_maker(penalty='l1',loss=None,dual=False,C=C)
     ml_func_dict['LSvmL2_C'+str(C).replace(".","p")] = LSvm_maker(penalty='l2',loss='hinge',dual=True,C=C)
     
@@ -128,7 +129,7 @@ ml_func_dict_final = {
 def LSvm_maker_final(penalty,loss,dual,C):
     return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base_final(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
     
-for C in [1]:#0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
+for C in [0.03, 0.02]:#0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
     ml_func_dict_final['LSvmL1_C'+str(C).replace(".","p")] = LSvm_maker_final(penalty='l1',loss=None,dual=False,C=C)
     ml_func_dict_final['LSvmL2_C'+str(C).replace(".","p")] = LSvm_maker_final(penalty='l2',loss='hinge',dual=True,C=C)
     
