@@ -3,6 +3,7 @@
 import itertools
 import copy
 import operator
+import numpy as np
 from scipy.stats import chisquare
 from pprint import pprint
 
@@ -46,24 +47,24 @@ def PickBest(test_results):
     folds[fold_5] = top_3_accs[fold_5]    
     
     pprint(folds)
-
     return fold_index, folds
 
-def PrintFinal(final_train_results, final_test_results, n_1, n_2):   
+################################################################################
+
+def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels):   
 
     pprint(final_train_results)    
-    final_average_train = round(sum(final_train_results.values())/5, 2)
+    final_average_train = round(sum(final_train_results.values())/5, 3)
     print('\n>>> Average of best tool across training sets: {}% <<<\n'.format(round(final_average_train, 2)))
 
     pprint(final_test_results)
-    final_average_test = round(sum(final_test_results.values())/5, 2)
-    print('\n>>> Average Tested Accuracy: {}% <<<\n'.format(round(final_average_test, 2)))
+    final_average_test = round(sum(final_test_results.values())/5, 3)
+    print('\n>>> Average Tested Accuracy: {}% <<<\n'.format(round(final_average_test, 3)))
     
     n_max = max(n_1, n_2)
     n_min = min(n_1, n_2)
     expected_accuracy = (n_max/(n_min + n_max))*100
-    print('>>> Chance Accuracy For n_1= {} and n_2= {}: {}% <<<\n'.format(n_1, n_2, round(expected_accuracy, 2)))
-
+    print('>>> Chance Accuracy For n_1= {} and n_2= {}: {}% <<<\n'.format(n_1, n_2, round(expected_accuracy, 3)))
     acc_diff = final_average_test - expected_accuracy
     if acc_diff > 0:
         acc_direction = str('above')
@@ -71,10 +72,20 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2):
         acc_direction = str('below')
     else: 
         acc_direction = str('equals')
-    print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 2)))
-
+    print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 3)))
+    
 # Significance testing for 3 multiple comparisons, 1 df
-    chi_square = chisquare(final_average_test, f_exp= expected_accuracy, ddof=0)
-    print('>>> (chi square, raw p-value): {}\n <<<'.format(str(chi_square)))
+    n_test_incorrect = 0
+    n_test_correct = 0
+    for pred,actual in zip(final_test_predictions,final_test_labels):
+        n_test_incorrect += sum(pred!=actual)
+        n_test_correct += sum(pred==actual)
         
+    count_obs_test= np.array([n_test_incorrect, n_test_correct])
+    count_exp_test= np.array([n_min, n_max])
+    #This is a one-way chi square test
+    #We are using chi square because of testing a single categorical variable for testing whether our sample data distribution is consistent with a theoretical data distribution (is it generalizable?)
+    chi_square_test = chisquare(count_obs_test, f_exp= count_exp_test, ddof=0)
+    print('>>> (chi square, raw p-value): {}\n <<<'.format(str(chi_square_test)))
+
     return final_average_train, final_average_test

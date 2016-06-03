@@ -25,8 +25,8 @@ def InnerAverages(lX_train, lX_test, param_set):
 #Gives average accuracy of the best param set for each fold, on outer loop data
 def OuterAverages(lX_train, lX_test, param_set):
     ps = str(param_set)
-    or_train = {ps : lX_train*100}
-    or_test = {ps : lX_test*100}
+    oR_train = {ps : lX_train*100}
+    oR_test = {ps : lX_test*100}
     
-    return or_train, or_test
+    return oR_train, oR_test
     

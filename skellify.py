@@ -42,9 +42,9 @@ fold_index, folds = comparator.PickBest(test_results)
 
 print('Running Step 9/10: Run Winning Combo on Outer Loop Holdout')
 #Run best param set for each inner fold on corresponding outer fold
-final_train_results, final_test_results = iterator.TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index) 
+final_train_results, final_test_results, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels = iterator.TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index) 
 
 print('Running Step 10/10: Print Test vs. Chance Results')
 #Print the results
-final_average_train, final_average_test = comparator.PrintFinal(final_train_results, final_test_results, n_1, n_2)
+final_average_train, final_average_test = comparator.PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels)
 

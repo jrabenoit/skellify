@@ -21,7 +21,7 @@ feat_sel_dict = {}#'SelKBest1':SelKBest1}
 def SelKBest_maker(f_classif, k):
     return lambda X_train, X_test, y_train, y_test: SelKBest_base(X_train, X_test, y_train, y_test, k)
     
-for k in range(20,21,10):
+for k in range(10,101,10):
     feat_sel_dict['SelKBest'+str(k)] = SelKBest_maker(f_classif, k)
     
 def SelKBest_base(X_train, X_test, y_train, y_test, k=10):
@@ -54,7 +54,7 @@ feat_sel_dict_final = {}#'SelKBest1':SelKBest1Final}
 def SelKBest_maker_final(f_classif, k):
     return lambda X_train, X_test, y_train, y_test: SelKBest_base_final(X_train, X_test, y_train, y_test, k)
     
-for k in range(20,21,10):
+for k in range(10,101,10):
     feat_sel_dict_final['SelKBest'+str(k)] = SelKBest_maker_final(f_classif, k)
     
 def SelKBest_base_final(X_train, X_test, y_train, y_test, k=10):
