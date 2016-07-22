@@ -11,10 +11,11 @@ group_keys={
     5:['Patients with >=50% Reduction in HAM-D Score','/home/james/Desktop/depression/10_Skellify_data/responder/'],
     6:['Patients with <7 HAM-D Score','/home/james/Desktop/depression/10_Skellify_data/remitter/'],
     7:['Patients with <50% Reduction in HAM-D Score','/home/james/Desktop/depression/10_Skellify_data/nonresponder/'],
-    8:['Patients with La/La type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/lala_tlpr/'],
-    9:['Patients with Sa/Sa + Sa/Lg type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/sasa_salg_tlpr/'],
-    10:['Patients with La/Sa + La/Lg type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/lasa_lalg_tlpr/'],
-    11:['All Patients','/home/james/Desktop/depression/10_Skellify_data/all_hamd/']
+#    8:['Patients with La/La type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/lala_tlpr/'],
+#    9:['Patients with Sa/Sa + Sa/Lg type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/sasa_salg_tlpr/'],
+#    10:['Patients with La/Sa + La/Lg type 5-HT TLPR','/home/james/Desktop/depression/10_Skellify_data/lasa_lalg_tlpr/'],
+    11:['All Patients','/home/james/Desktop/depression/10_Skellify_data/all_hamd/'],
+    12:['Combined Remitter Responder','/home/james/Desktop/depression/10_Skellify_data/rem_and_res/']
     }
 
 # Mask file for skeletonized DTI scans

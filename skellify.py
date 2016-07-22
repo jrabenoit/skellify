@@ -13,20 +13,20 @@ n_1, n_2, dir_1, dir_2, mask = data.SelectGroup()
 
 #Load two sets of scans into a dataset and mask the data
 print('Running Step 2/10: Sort & Mask Data')
-sorted_files = prep.Sort(dir_1, dir_2)
+concat_dict, iter_n = prep.Sort(dir_1, dir_2, n_1, n_2)
 
 #Flatten the data, z-normalize (center the data (remove the mean), scale to unit variance)
 print('Running Step 3/10: Flatten the 4D Files to 2D Matrices, Z-normalization')
-masked_data = prep.MaskFlatten(sorted_files, mask)
-znorm_data = prep.ZNormalize(masked_data)
+masked_dict = prep.MaskFlatten(concat_dict, mask, iter_n)
+znorm_dict = prep.ZNormalize(masked_dict, iter_n)
 
 print('Running Step 4/10: Label Groups')
-labels = prep.GroupLabels(n_1, n_2)
+group_label_dict = prep.GroupLabels(n_1, n_2)
 
 #Do 5-fold CV setup for outer fold (X=data, y=labels)
 #NOTE: THIS STEP AND THE NEXT STEP DO NOT RUN THE CV. THESE STEPS SET UP 25 DIFFERENT GROUPS OF DATA, AS DETERMINED BY A 5 OUTER FOLD CV, AND A 5 INNER-FOLD CV ON EACH OUTER FOLD.
 print('Running Step 5/10: Set Up Outer CV Loop')
-oX_train, oX_test, oy_train, oy_test = crossval.oSkfCv(labels, znorm_data)
+oX_train, oX_test, oy_train, oy_test = crossval.oSkfCv(group_label_dict, znorm_dict)
 
 #Do 5-fold CV setup for each outer fold, creating 25 inner folds total
 print('Running Step 6/10: Set Up Inner CV Loop')

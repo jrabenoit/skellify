@@ -50,13 +50,13 @@ def LinearSgd(X_train, X_test, y_train, y_test):
     return X_train, X_test
 
 ml_func_dict = {
-                'GauNaiBay':GauNaiBay,
-                'KNeighbors':KNeighbors,
-                'CSupSvc':CSupSvc,
-                'RandomForest':RandomForest,
-                'LinearSgd':LinearSgd
+#                'GauNaiBay':GauNaiBay,
+#                'KNeighbors':KNeighbors,
+#                'CSupSvc':CSupSvc,
+                'RandomForest':RandomForest
+#                'LinearSgd':LinearSgd
                } 
-
+'''
 def LSvm_maker(penalty,loss,dual,C):
     return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
  
@@ -80,7 +80,8 @@ def LSvm_base(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=None, dua
         lX_train[i] = lsvm.score(lX_train[i], ly_train[i])
         lX_test[i] = lsvm.score(lX_test[i], ly_test[i])   
     return lX_train, lX_test
-
+'''    
+################################################################################
 ################################################################################
 
 def GauNaiBayFinal(X_train, X_test, y_train, y_test):
@@ -139,16 +140,17 @@ def LinearSgdFinal(X_train, X_test, y_train, y_test):
     return lX_train, lX_test, lX_train_predict, lX_test_predict, ly_train_labels, ly_test_labels
     
 ml_func_dict_final = {
-                      'GauNaiBay':GauNaiBayFinal,
-                      'KNeighbors':KNeighborsFinal,
-                      'CSupSvc':CSupSvcFinal,
-                      'RandomForest':RandomForestFinal,
-                      'LinearSgd':LinearSgdFinal
+#                      'GauNaiBay':GauNaiBayFinal,
+#                      'KNeighbors':KNeighborsFinal,
+#                      'CSupSvc':CSupSvcFinal,
+                      'RandomForest':RandomForestFinal
+#                      'LinearSgd':LinearSgdFinal
                      } 
-
+'''
 def LSvm_maker_final(penalty,loss,dual,C):
     return lambda fX_train, fX_test, fy_train, fy_test: LSvm_base_final(fX_train, fX_test, fy_train, fy_test, penalty,loss,dual,C)
     
+# Expanded C: [0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]
 for C in [0.01,0.03,0.1,0.3,1.0,3.0,10.0,30.0]:
     ml_func_dict_final['LSvmL1_C'+str(C).replace(".","p")] = LSvm_maker_final(penalty='l1',loss=None,dual=False,C=C)
     ml_func_dict_final['LSvmL2_C'+str(C).replace(".","p")] = LSvm_maker_final(penalty='l2',loss='hinge',dual=True,C=C)
@@ -168,4 +170,4 @@ def LSvm_base_final(fX_train, fX_test, fy_train, fy_test, penalty='l1', loss=Non
     ly_train_labels= fy_train
     ly_test_labels= fy_test
     return lX_train, lX_test, lX_train_predict, lX_test_predict, ly_train_labels, ly_test_labels
-
+'''
