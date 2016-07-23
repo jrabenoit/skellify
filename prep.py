@@ -59,7 +59,7 @@ def MaskFlatten(concat_dict, mask, iter_n):
     nifti_masker = NiftiMasker(mask_img=mask)
     masked_dict = {}
     for i in range(iter_n):
-        masked_dict = nifti_masker.fit_transform(concat_dict[i])
+        masked_dict[i] = nifti_masker.fit_transform(concat_dict[i])
     return masked_dict
 
 def ZNormalize(masked_dict, iter_n):
@@ -67,18 +67,17 @@ def ZNormalize(masked_dict, iter_n):
     stdscaler = preprocessing.StandardScaler(copy=True, with_mean=True, with_std=True)
     znorm_dict = {}
     for i in range(iter_n):
-        znorm_dict = stdscaler.fit_transform(masked_dict[i])
-    stuff = masked_dict
-    pprint.pprint(stuff)
+        znorm_dict[i] = stdscaler.fit_transform(masked_dict[i])
     return znorm_dict
 
-def GroupLabels(n_1, n_2):
+def GroupLabels(n_1, n_2, iter_n):
     '''Create two-class label set matching data input'''
     group_size = min(n_1, n_2)
-    group_dict = {}
-    for i in range(group_size):
+    group_label_dict = {}
+    for i in range(iter_n):
         array_1 = np.zeros(group_size, dtype=np.int8)
         array_2 = np.ones(group_size, dtype=np.int8)
         labels = np.append(array_1, array_2)
-        group_dict[i] = labels
-    return group_dict
+        group_label_dict[i] = labels
+    return group_label_dict
+    

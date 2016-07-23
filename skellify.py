@@ -21,16 +21,16 @@ masked_dict = prep.MaskFlatten(concat_dict, mask, iter_n)
 znorm_dict = prep.ZNormalize(masked_dict, iter_n)
 
 print('Running Step 4/10: Label Groups')
-group_label_dict = prep.GroupLabels(n_1, n_2)
+group_label_dict = prep.GroupLabels(n_1, n_2, iter_n)
 
 #Do 5-fold CV setup for outer fold (X=data, y=labels)
 #NOTE: THIS STEP AND THE NEXT STEP DO NOT RUN THE CV. THESE STEPS SET UP 25 DIFFERENT GROUPS OF DATA, AS DETERMINED BY A 5 OUTER FOLD CV, AND A 5 INNER-FOLD CV ON EACH OUTER FOLD.
 print('Running Step 5/10: Set Up Outer CV Loop')
-oX_train, oX_test, oy_train, oy_test = crossval.oSkfCv(group_label_dict, znorm_dict)
+oX_train, oX_test, oy_train, oy_test = crossval.oSkfCv(group_label_dict, znorm_dict, iter_n)
 
 #Do 5-fold CV setup for each outer fold, creating 25 inner folds total
 print('Running Step 6/10: Set Up Inner CV Loop')
-iX_train, iX_test, iy_train, iy_test = crossval.iSkfCv(oy_train, oX_train)
+iX_train, iX_test, iy_train, iy_test = crossval.iSkfCv(oy_train, oX_train, iter_n)
 
 #Run the data from iSkfCv through an iterative tool that tries all learning combinations
 print('Running Step 7/10: List featsel/decomp/mltool Combos')
