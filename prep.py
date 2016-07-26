@@ -22,7 +22,7 @@ def Sort(dir_1, dir_2, n_1, n_2):
     g_1 = files_1
     g_2 = files_2
    
-    for i in range(0, iter_n, 1):  
+    for i in range(iter_n):  
         if n_1 > n_2:
             files_1.insert(0, g_1.pop()) 
             g_1 = files_1[:n_2]
@@ -43,10 +43,9 @@ def Sort(dir_1, dir_2, n_1, n_2):
             g_concat = g_1 + g_2
             concat_dict[i] = g_concat
 
-#    stuff = n_1, n_2, concat_dict
-#    pprint.pprint(stuff)
+    concat_subjects_dict = concat_dict
 
-    return concat_dict, iter_n
+    return concat_dict, concat_subjects_dict, iter_n
 '''
     dataset_1 = sorted(glob.glob(dir_1))
     dataset_2 = sorted(glob.glob(dir_2))

@@ -51,7 +51,7 @@ def PickBest(test_results):
 
 ################################################################################
 
-def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels):   
+def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels, iter_n):   
 
     pprint(final_train_results)    
     final_average_train = round(sum(final_train_results.values())/5, 3)
@@ -75,17 +75,39 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_pr
     print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 3)))
     
 # Significance testing for 3 multiple comparisons, 1 df
-    n_test_incorrect = 0
-    n_test_correct = 0
-    for pred,actual in zip(final_test_predictions,final_test_labels):
-        n_test_incorrect += sum(pred!=actual)
-        n_test_correct += sum(pred==actual)
-        
+    for i in range(iter_n):
+        n_test_incorrect = 0
+        n_test_correct = 0
+        for pred,actual in zip(final_test_predictions[i],final_test_labels[i]):
+            n_test_incorrect += sum(pred!=actual)
+            n_test_correct += sum(pred==actual)
+        print('n_test_incorrect for {} = {}'.format([i], n_test_incorrect))
+        print('n_test_correct for {} = {}'.format([i], n_test_correct))
     count_obs_test= np.array([n_test_incorrect, n_test_correct])
     count_exp_test= np.array([n_min, n_max])
+
+    return final_average_train, final_average_test
+
+#Removed chi-square test; inappropriate for new stats
+'''
     #This is a one-way chi square test
     #We are using chi square because of testing a single categorical variable for testing whether our sample data distribution is consistent with a theoretical data distribution (is it generalizable?)
     chi_square_test = chisquare(count_obs_test, f_exp= count_exp_test, ddof=0)
     print('>>> (chi square, raw p-value): {}\n <<<'.format(str(chi_square_test)))
+'''
+def BootstrapDistribution(concat_dict, iter_n, train_index_outer, test_index_outer, train_index_inner, test_index_inner):
 
-    return final_average_train, final_average_test
+    for i in range(iter_n):
+        for subj,result in zip(list_of_train_subjects,list_of_train_results):
+            if subj in subject_results_train:
+                subject_results_train[subj] += [result]
+            else:
+                subject_results_train[subj] = [result]
+
+        for subj,result in zip(list_of_test_subjects,list_of_test_results):
+            if subj in subject_results_test:
+                subject_results_test[subj] += [result]
+            else:
+                subject_results_test[subj] = [result]
+                
+    return 
