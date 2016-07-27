@@ -1,5 +1,7 @@
 #!/usr/bin/env python 
 
+from collections import defaultdict
+import pprint
 import itertools
 import copy
 import operator
@@ -51,7 +53,7 @@ def PickBest(test_results):
 
 ################################################################################
 
-def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels, iter_n):   
+def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels, iter_n, train_index_files, test_index_files):   
 
     pprint(final_train_results)    
     final_average_train = round(sum(final_train_results.values())/5, 3)
@@ -74,19 +76,20 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_pr
         acc_direction = str('equals')
     print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 3)))
     
-# Significance testing for 3 multiple comparisons, 1 df
+# Create results dict
+    final_test_correct = defaultdict(list)
     for i in range(iter_n):
-        n_test_incorrect = 0
-        n_test_correct = 0
-        for pred,actual in zip(final_test_predictions[i],final_test_labels[i]):
-            n_test_incorrect += sum(pred!=actual)
-            n_test_correct += sum(pred==actual)
-        print('n_test_incorrect for {} = {}'.format([i], n_test_incorrect))
-        print('n_test_correct for {} = {}'.format([i], n_test_correct))
-    count_obs_test= np.array([n_test_incorrect, n_test_correct])
-    count_exp_test= np.array([n_min, n_max])
-
-    return final_average_train, final_average_test
+        for j in range(5):
+            list_final_test_correct= []
+            for k in range(len(final_test_predictions[i][j])):
+                if final_test_predictions[i][j][k]==final_test_labels[i][j][k]:
+                    list_final_test_correct.append(1)
+                else:
+                    list_final_test_correct.append(0)
+            final_test_correct[i] += [list_final_test_correct]  
+    print('FINAL_TEST_CORRECT')
+    pprint(final_test_correct)
+    return 
 
 #Removed chi-square test; inappropriate for new stats
 '''
@@ -95,19 +98,21 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_pr
     chi_square_test = chisquare(count_obs_test, f_exp= count_exp_test, ddof=0)
     print('>>> (chi square, raw p-value): {}\n <<<'.format(str(chi_square_test)))
 '''
-def BootstrapDistribution(concat_dict, iter_n, train_index_outer, test_index_outer, train_index_inner, test_index_inner):
+
+def BootstrapDistribution(concat_subjects_dict, iter_n, train_index_outer, test_index_outer, train_index_files, test_index_files):
 
     for i in range(iter_n):
-        for subj,result in zip(list_of_train_subjects,list_of_train_results):
+        for subj,result in zip(list_of_train_subjects[i],list_of_train_results[i]):
             if subj in subject_results_train:
                 subject_results_train[subj] += [result]
             else:
                 subject_results_train[subj] = [result]
 
-        for subj,result in zip(list_of_test_subjects,list_of_test_results):
+        for subj,result in zip(list_of_test_subjects[i],list_of_test_results[i]):
             if subj in subject_results_test:
                 subject_results_test[subj] += [result]
             else:
                 subject_results_test[subj] = [result]
                 
     return 
+

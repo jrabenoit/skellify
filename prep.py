@@ -14,11 +14,10 @@ def Sort(dir_1, dir_2, n_1, n_2):
     files_2 = glob.glob(dir_2)
     random.shuffle(files_1)
     random.shuffle(files_2)
-    
+#From this point on the dict is set in order, changed only by if statement below    
     n_list = [n_1, n_2]
     iter_n = max(n_list)
     concat_dict = {}
-
     g_1 = files_1
     g_2 = files_2
    

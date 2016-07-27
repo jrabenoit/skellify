@@ -60,20 +60,20 @@ def TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index, iter_n):
     final_train_labels= defaultdict(list)
     final_test_labels= defaultdict(list)
 
-    for j in range(iter_n):    
-        for i in range(5):
-            print('  Final params, fold {0}/{1}: {2}'.format(i+1, len(final_params), final_params[i][1:4]))
-            param_set = final_params[i]
-        ####Random Forest Only, no featsel or decomp
-            lX_train, lX_test, lX_train_predict, lX_test_predict, ly_train_labels, ly_test_labels = eval("mltools.ml_func_dict_final['{}'](hX_train[j][i], hX_test[j][i], hy_train[j][i], hy_test[j][i])".format(str(param_set[1])))
+    for i in range(iter_n):    
+        for j in range(5):
+            print('  Final params, fold {0}/{1}: {2}'.format(j+1, len(final_params), final_params[j][1:4]))
+            param_set = final_params[j]
+        #Random Forest Only, no featsel or decomp
+            lX_train, lX_test, lX_train_predict, lX_test_predict, ly_train_labels, ly_test_labels = eval("mltools.ml_func_dict_final['{}'](hX_train[i][j], hX_test[i][j], hy_train[i][j], hy_test[i][j])".format(str(param_set[1])))
         
             oR_train, oR_test = results.OuterAverages(lX_train, lX_test, param_set)
             final_train_results.update(oR_train)
             final_test_results.update(oR_test)
-            final_train_predictions[j].append(lX_train_predict)
-            final_test_predictions[j].append(lX_test_predict)
-            final_train_labels[j].append(ly_train_labels)
-            final_test_labels[j].append(ly_test_labels)        
+            final_train_predictions[i].append(lX_train_predict)
+            final_test_predictions[i].append(lX_test_predict)
+            final_train_labels[i].append(ly_train_labels)
+            final_test_labels[i].append(ly_test_labels)        
     print('oR_train')
     pprint.pprint(oR_train)
     print('oR_test')
