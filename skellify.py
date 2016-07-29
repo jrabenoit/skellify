@@ -54,26 +54,24 @@ for i in range(10):
         concatenated_test[key].append(value)
     print(concatenated_test)
 
+concatenated_train_chained = defaultdict(list)
+for key, value in concatenated_train.items():
+    print('>>>CHAINING TRAINING RESULTS TOGETHER')
+    concatenated_train_chained[key] = list(itertools.chain.from_iterable(value))
+    
 concatenated_test_chained = defaultdict(list)
 for key, value in concatenated_test.items():
     print('>>>CHAINING TEST RESULTS TOGETHER')
     concatenated_test_chained[key] = list(itertools.chain.from_iterable(value))
 
-concatenated_train_chained = defaultdict(list)
-for key, value in concatenated_train.items():
-    print('>>>CHAINING TRAINING RESULTS TOGETHER')
-    concatenated_train_chained[key] = list(itertools.chain.from_iterable(value))
+per_subject_train_acc = defaultdict(list)
+for key, value in concatenated_train_chained.items():
+    print('>>>SUMMED TEST SUBJECT ACCURACY SCORES ACROSS ALL ITERATIONS')
+    per_subject_train_acc[key] = round((sum(value)/len(value))*100,2)
+pprint.pprint(per_subject_train_acc)
 
 per_subject_test_acc = defaultdict(list)
 for key, value in concatenated_test_chained.items():
-    print('>>>NOW SUMMING ITEMS ACROSS ALL ITERATIONS')
+    print('>>>SUMMED TRAIN SUBJECT ACCURACY SCORES ACROSS ALL ITERATIONS')
     per_subject_test_acc[key] = round((sum(value)/len(value))*100,2)
-    pprint.pprint(per_subject_test_acc)
-
-per_subject_train_acc = defaultdict(list)
-for key, value in concatenated_train_chained.items():
-    print('>>>NOW SUMMING ITEMS ACROSS ALL ITERATIONS')
-    per_subject_train_acc[key] = round((sum(value)/len(value))*100,2)
-    pprint.pprint(per_subject_train_acc)
-
-per_subject_train_acc = defaultdict(list)
+pprint.pprint(per_subject_test_acc)
