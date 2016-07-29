@@ -57,12 +57,12 @@ for i in range(10):
 concatenated_test_chained = defaultdict(list)
 for key, value in concatenated_test.items():
     print('>>>CHAINING TEST RESULTS TOGETHER')
-    concatenated_test_chained[key] = itertools.chain(value)
+    concatenated_test_chained[key] = list(itertools.chain.from_iterable(value))
 
 concatenated_train_chained = defaultdict(list)
 for key, value in concatenated_train.items():
     print('>>>CHAINING TRAINING RESULTS TOGETHER')
-    concatenated_train_chained[key] = itertools.chain(value)
+    concatenated_train_chained[key] = list(itertools.chain.from_iterable(value))
 
 per_subject_test_acc = defaultdict(list)
 for key, value in concatenated_test_chained.items():
