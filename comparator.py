@@ -78,18 +78,24 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_pr
     
 # Create results dict
     final_test_correct = defaultdict(list)
+    final_train_correct = defaultdict(list)
     for i in range(iter_n):
         for j in range(5):
             list_final_test_correct= []
+            list_final_train_correct= []
             for k in range(len(final_test_predictions[i][j])):
                 if final_test_predictions[i][j][k]==final_test_labels[i][j][k]:
                     list_final_test_correct.append(1)
                 else:
                     list_final_test_correct.append(0)
+            for k in range(len(final_train_predictions[i][j])):
+                if final_train_predictions[i][j][k]==final_train_labels[i][j][k]:
+                    list_final_train_correct.append(1)
+                else:
+                    list_final_train_correct.append(0)
             final_test_correct[i] += [list_final_test_correct]  
-    print('FINAL_TEST_CORRECT')
-    pprint(final_test_correct)
-    return 
+            final_train_correct[i] += [list_final_train_correct]  
+    return final_train_correct, final_test_correct
 
 #Removed chi-square test; inappropriate for new stats
 '''
@@ -99,20 +105,39 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_pr
     print('>>> (chi square, raw p-value): {}\n <<<'.format(str(chi_square_test)))
 '''
 
-def BootstrapDistribution(concat_subjects_dict, iter_n, train_index_outer, test_index_outer, train_index_files, test_index_files):
-
+def SubjectAccuracy(iter_n, final_train_correct, final_test_correct, train_index_files, test_index_files, concat_subjects_dict):
+    
+    list_of_test_results= []
+    list_of_test_subjects= []
     for i in range(iter_n):
-        for subj,result in zip(list_of_train_subjects[i],list_of_train_results[i]):
-            if subj in subject_results_train:
-                subject_results_train[subj] += [result]
-            else:
-                subject_results_train[subj] = [result]
+        for j in range(5):
+            for k in range(len(final_test_correct[i][j])):
+                list_of_test_results.append(final_test_correct[i][j][k])
+                list_of_test_subjects.append(test_index_files[i][j][k])
+    
+    list_of_train_results= []
+    list_of_train_subjects= []
+    for i in range(iter_n):
+        for j in range(5):
+            for k in range(len(final_train_correct[i][j])):
+                list_of_test_results.append(final_train_correct[i][j][k])
+                list_of_test_subjects.append(train_index_files[i][j][k])
+    
+    subject_results_test= defaultdict(list)
+    for subj,result in zip(list_of_test_subjects,list_of_test_results):
+        if subj in subject_results_test:
+            subject_results_test[subj] += [result]
+        else:
+            subject_results_test[subj] = [result]
 
-        for subj,result in zip(list_of_test_subjects[i],list_of_test_results[i]):
-            if subj in subject_results_test:
-                subject_results_test[subj] += [result]
-            else:
-                subject_results_test[subj] = [result]
-                
-    return 
+    subject_results_train= defaultdict(list)
+    for subj,result in zip(list_of_train_subjects,list_of_train_results):
+        if subj in subject_results_train:
+            subject_results_train[subj] += [result]
+        else:
+            subject_results_train[subj] = [result]
+
+    return subject_results_test, subject_results_train
+    
+
 

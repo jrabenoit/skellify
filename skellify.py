@@ -3,6 +3,7 @@
 #Temporary test message for git setup
 
 #Data prep modules, processing modules, and result reporting modules
+from collections import defaultdict
 import data, prep, crossval, pprint 
 import iterator, comparator
 import visualize
@@ -10,6 +11,9 @@ import visualize
 #Select a group of scans to use 
 print('Running Step 1/10: Select Groups for Classification')
 n_1, n_2, dir_1, dir_2, mask = data.SelectGroup()
+
+concatenated_test = defaultdict(list)
+concatenated_train = defaultdict(list)
 
 for i in range(10):
     print('>>> ITERATION {} OF 10'.format(i+1))  
@@ -40,7 +44,26 @@ for i in range(10):
     final_train_results, final_test_results, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels = iterator.TestHoldout(oX_train, oX_test, oy_train, oy_test, fold_index, iter_n) 
     print('Running Step 10/10: Print Test vs. Chance Results')
 #Print the results
-    final_average_train, final_average_test = comparator.PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels, iter_n, train_index_files, test_index_files)
+    final_train_correct, final_test_correct = comparator.PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels, iter_n, train_index_files, test_index_files)
 
 #Build bootstrap distribution
-    comparator.BootstrapDistribution(concat_subjects_dict, iter_n, train_index_outer, test_index_outer, train_index_files, test_index_files)
+    subject_results_test, subject_results_train = comparator.SubjectAccuracy(iter_n, final_train_correct, final_test_correct, train_index_files, test_index_files, concat_subjects_dict)
+
+#Concatenate classification attempts for each subject
+
+    for key, value in subject_results_test.items():
+        concatenated_test[key].append(value)
+    print(concatenated_test)
+
+concatenated_test_chained = defaultdict(list)
+for key, value in concatenated_test.items():
+    print('>>>CHAINING TEST RESULTS TOGETHER')
+    concatenated_test_chained[key] = itertools.chain(value)
+
+per_subject_test_acc = defaultdict(list)
+for key, value in concatenated_test_chained.items():
+    print('>>>NOW SUMMING ITEMS ACROSS ALL ITERATIONS')
+    per_subject_test_acc[key] = round((sum(value)/len(value))*100,2)
+    pprint.pprint(per_subject_test_acc)
+
+per_subject_train_acc = defaultdict(list)
