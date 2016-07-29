@@ -4,7 +4,7 @@
 
 #Data prep modules, processing modules, and result reporting modules
 from collections import defaultdict
-import data, prep, crossval, pprint 
+import data, prep, crossval, pprint, itertools
 import iterator, comparator
 import visualize
 
@@ -50,7 +50,6 @@ for i in range(10):
     subject_results_test, subject_results_train = comparator.SubjectAccuracy(iter_n, final_train_correct, final_test_correct, train_index_files, test_index_files, concat_subjects_dict)
 
 #Concatenate classification attempts for each subject
-
     for key, value in subject_results_test.items():
         concatenated_test[key].append(value)
     print(concatenated_test)
@@ -60,10 +59,21 @@ for key, value in concatenated_test.items():
     print('>>>CHAINING TEST RESULTS TOGETHER')
     concatenated_test_chained[key] = itertools.chain(value)
 
+concatenated_train_chained = defaultdict(list)
+for key, value in concatenated_train.items():
+    print('>>>CHAINING TRAINING RESULTS TOGETHER')
+    concatenated_train_chained[key] = itertools.chain(value)
+
 per_subject_test_acc = defaultdict(list)
 for key, value in concatenated_test_chained.items():
     print('>>>NOW SUMMING ITEMS ACROSS ALL ITERATIONS')
     per_subject_test_acc[key] = round((sum(value)/len(value))*100,2)
     pprint.pprint(per_subject_test_acc)
+
+per_subject_train_acc = defaultdict(list)
+for key, value in concatenated_train_chained.items():
+    print('>>>NOW SUMMING ITEMS ACROSS ALL ITERATIONS')
+    per_subject_train_acc[key] = round((sum(value)/len(value))*100,2)
+    pprint.pprint(per_subject_train_acc)
 
 per_subject_train_acc = defaultdict(list)
