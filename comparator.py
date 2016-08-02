@@ -55,18 +55,18 @@ def PickBest(test_results):
 
 def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_predictions, final_test_predictions, final_train_labels, final_test_labels, iter_n, train_index_files, test_index_files):   
 
-    pprint(final_train_results)    
+#    pprint(final_train_results)    
     final_average_train = round(sum(final_train_results.values())/5, 3)
-    print('\n>>> Average of best tool across training sets: {}% <<<\n'.format(round(final_average_train, 2)))
+#    print('\n>>> Average of best tool across training sets: {}% <<<\n'.format(round(final_average_train, 2)))
 
-    pprint(final_test_results)
+#    pprint(final_test_results)
     final_average_test = round(sum(final_test_results.values())/5, 3)
-    print('\n>>> Average Tested Accuracy: {}% <<<\n'.format(round(final_average_test, 3)))
+#    print('\n>>> Average Tested Accuracy: {}% <<<\n'.format(round(final_average_test, 3)))
     
     n_max = max(n_1, n_2)
     n_min = min(n_1, n_2)
     expected_accuracy = (n_max/(n_min + n_max))*100
-    print('>>> Chance Accuracy For n_1= {} and n_2= {}: {}% <<<\n'.format(n_1, n_2, round(expected_accuracy, 3)))
+#    print('>>> Chance Accuracy For n_1= {} and n_2= {}: {}% <<<\n'.format(n_1, n_2, round(expected_accuracy, 3)))
     acc_diff = final_average_test - expected_accuracy
     if acc_diff > 0:
         acc_direction = str('above')
@@ -74,7 +74,7 @@ def PrintFinal(final_train_results, final_test_results, n_1, n_2, final_train_pr
         acc_direction = str('below')
     else: 
         acc_direction = str('equals')
-    print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 3)))
+#    print('>>> Tested accuracy {} chance accuracy by {}% <<<\n'.format(acc_direction, round(abs(acc_diff), 3)))
     
 # Create results dict
     final_test_correct = defaultdict(list)
@@ -120,8 +120,8 @@ def SubjectAccuracy(iter_n, final_train_correct, final_test_correct, train_index
     for i in range(iter_n):
         for j in range(5):
             for k in range(len(final_train_correct[i][j])):
-                list_of_test_results.append(final_train_correct[i][j][k])
-                list_of_test_subjects.append(train_index_files[i][j][k])
+                list_of_train_results.append(final_train_correct[i][j][k])
+                list_of_train_subjects.append(train_index_files[i][j][k])
     
     subject_results_test= defaultdict(list)
     for subj,result in zip(list_of_test_subjects,list_of_test_results):
@@ -130,13 +130,12 @@ def SubjectAccuracy(iter_n, final_train_correct, final_test_correct, train_index
         else:
             subject_results_test[subj] = [result]
 
-    subject_results_train= defaultdict(list)
+    subject_results_train= defaultdict(list)   
     for subj,result in zip(list_of_train_subjects,list_of_train_results):
         if subj in subject_results_train:
             subject_results_train[subj] += [result]
         else:
             subject_results_train[subj] = [result]
-
     return subject_results_test, subject_results_train
     
 
