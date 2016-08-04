@@ -2,8 +2,10 @@
 
 #Data prep modules, processing modules, and result reporting modules
 from collections import defaultdict
-import data, prep, crossval, pprint, itertools
+import pprint, itertools
+import data, prep, crossval
 import iterator, comparator
+import bootstrap
 import visualize
 
 #Select a group of scans to use 
@@ -13,7 +15,7 @@ n_1, n_2, dir_1, dir_2, mask = data.SelectGroup()
 concatenated_test = defaultdict(list)
 concatenated_train = defaultdict(list)
 
-number_of_iterations = 10
+number_of_iterations = 1
 for i in range(number_of_iterations):
     print('>>>ITERATION {} OF {}'.format(i+1,number_of_iterations))  
     print('Step 2/10: Sort Data')
@@ -74,11 +76,20 @@ for key, value in concatenated_test.items():
 print('>>>TRAIN SUBJECT ACCURACY SCORES')
 per_subject_train_acc = defaultdict(list)
 for key, value in concatenated_train_chained.items():
-    per_subject_train_acc[key] = round((sum(value)/len(value))*100,2)
-pprint.pprint(per_subject_train_acc)
+    per_subject_train_acc[key] = round((sum(value)/len(value))*100,4)
+#pprint.pprint(per_subject_train_acc)
 
 print('>>>TEST SUBJECT ACCURACY SCORES')
 per_subject_test_acc = defaultdict(list)
 for key, value in concatenated_test_chained.items():
-    per_subject_test_acc[key] = round((sum(value)/len(value))*100,2)
-pprint.pprint(per_subject_test_acc)
+    per_subject_test_acc[key] = round((sum(value)/len(value))*100,4)
+#pprint.pprint(per_subject_test_acc)
+
+final_acc = sum(list(per_subject_test_acc.values()))/len(list(per_subject_test_acc.values()))
+print('>>>AVERAGE ACCURACY: {}%'.format(round(final_acc,2)))
+p_value = bootstrap.EmpiricalDistro(n_1, n_2, per_subject_test_acc)
+print('>>>P VALUE UNCORRECTED: {}'.format(round(p_value,4)))
+print('>>>P VALUE CORRECTED: {}'.format(round(p_value*3,4)))
+
+print('>>>GROUP SIZE: {}%'.format(n_1 + n_2))
+
