@@ -15,7 +15,7 @@ n_1, n_2, dir_1, dir_2, mask = data.SelectGroup()
 concatenated_test = defaultdict(list)
 concatenated_train = defaultdict(list)
 
-number_of_iterations = 1
+number_of_iterations = 10
 for i in range(number_of_iterations):
     print('>>>ITERATION {} OF {}'.format(i+1,number_of_iterations))  
     print('Step 2/10: Sort Data')
@@ -86,10 +86,10 @@ for key, value in concatenated_test_chained.items():
 #pprint.pprint(per_subject_test_acc)
 
 final_acc = sum(list(per_subject_test_acc.values()))/len(list(per_subject_test_acc.values()))
-print('>>>AVERAGE ACCURACY: {}%'.format(round(final_acc,2)))
+print('\n>>>AVERAGE ACCURACY: {}%'.format(round(final_acc,2)))
 p_value = bootstrap.EmpiricalDistro(n_1, n_2, per_subject_test_acc)
-print('>>>P VALUE UNCORRECTED: {}'.format(round(p_value,4)))
-print('>>>P VALUE CORRECTED: {}'.format(round(p_value*3,4)))
+print('>>>P VALUE UNCORRECTED: {}'.format(p_value))
+print('>>>P VALUE CORRECTED: {}'.format(p_value*3))
 
-print('>>>GROUP SIZE: {}%'.format(n_1 + n_2))
+print('>>>SAMPLE SIZE: {}'.format(n_1 + n_2))
 

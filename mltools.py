@@ -41,6 +41,14 @@ def RandomForest(X_train, X_test, y_train, y_test):
         X_test[i] = rf.score(X_test[i], y_test[i])
     return X_train, X_test
 
+def ExtraTrees(X_train, X_test, y_train, y_test):
+    for i in range(len(X_train)):
+        rf = ensemble.ExtraTreesClassifier()
+        rf.fit(X_train[i], y_train[i])
+        X_train[i] = rf.score(X_train[i], y_train[i])
+        X_test[i] = rf.score(X_test[i], y_test[i])
+    return X_train, X_test
+
 def LinearSgd(X_train, X_test, y_train, y_test):
     for i in range(len(X_train)):
         sgd = linear_model.SGDClassifier()
@@ -54,6 +62,7 @@ ml_func_dict = {
 #                'KNeighbors':KNeighbors,
 #                'CSupSvc':CSupSvc,
                 'RandomForest':RandomForest
+#                 'ExtraTrees':ExtraTrees
 #                'LinearSgd':LinearSgd
                } 
 '''
@@ -128,6 +137,17 @@ def RandomForestFinal(X_train, X_test, y_train, y_test):
     ly_test_labels= y_test
     return lX_train, lX_test, lX_train_predict, lX_test_predict, ly_train_labels, ly_test_labels
 
+def ExtraTreesFinal(X_train, X_test, y_train, y_test):
+    rf = ensemble.ExtraTreesClassifier()
+    rf.fit(X_train, y_train)
+    lX_train = rf.score(X_train, y_train)
+    lX_test = rf.score(X_test, y_test)
+    lX_train_predict= rf.predict(X_train)
+    lX_test_predict= rf.predict(X_test)
+    ly_train_labels= y_train
+    ly_test_labels= y_test
+    return lX_train, lX_test, lX_train_predict, lX_test_predict, ly_train_labels, ly_test_labels
+
 def LinearSgdFinal(X_train, X_test, y_train, y_test):
     sgd = linear_model.SGDClassifier()
     sgd.fit(X_train, y_train)
@@ -144,6 +164,7 @@ ml_func_dict_final = {
 #                      'KNeighbors':KNeighborsFinal,
 #                      'CSupSvc':CSupSvcFinal,
                       'RandomForest':RandomForestFinal
+#                       'ExtraTrees':ExtraTreesFinal
 #                      'LinearSgd':LinearSgdFinal
                      } 
 '''
